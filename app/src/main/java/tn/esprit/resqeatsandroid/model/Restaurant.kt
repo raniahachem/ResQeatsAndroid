@@ -13,6 +13,6 @@ data class Restaurant(
     val type: String,
     val createdAt: String,
     val updatedAt: String,
-    val __v: Int
+    val _id: String
 )
 
