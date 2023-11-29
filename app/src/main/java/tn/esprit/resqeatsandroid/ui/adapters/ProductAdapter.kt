@@ -1,3 +1,5 @@
+package tn.esprit.resqeatsandroid.ui.adapters
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -25,9 +27,14 @@ class ProductAdapter : ListAdapter<HomeItem.ProductItem, ProductAdapter.ViewHold
                 productName.text = product.title
                 productCategory.text = product.category
                 // Même idée pour les autres champs du produit
+
+                // Mettez à jour la TextView du prix avec la valeur du modèle Product
+                productPrice.text = "Price: $${product.price}"  // Utilisez product.price au lieu de productItem.price
             }
         }
     }
+
+
 
     private class ProductDiffCallback : DiffUtil.ItemCallback<HomeItem.ProductItem>() {
         override fun areItemsTheSame(oldItem: HomeItem.ProductItem, newItem: HomeItem.ProductItem): Boolean {

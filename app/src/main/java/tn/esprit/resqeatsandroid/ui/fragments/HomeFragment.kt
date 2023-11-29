@@ -1,3 +1,5 @@
+package tn.esprit.resqeatsandroid.ui.fragments
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +9,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import tn.esprit.resqeatsandroid.databinding.FragmentHomeBinding
+import tn.esprit.resqeatsandroid.ui.adapters.ProductAdapter
+import tn.esprit.resqeatsandroid.ui.adapters.RestaurantAdapter
+import tn.esprit.resqeatsandroid.viewmodel.ProductViewModel
+import tn.esprit.resqeatsandroid.viewmodel.RestaurantViewModel
 
 class HomeFragment : Fragment() {
     private lateinit var restaurantViewModel: RestaurantViewModel
