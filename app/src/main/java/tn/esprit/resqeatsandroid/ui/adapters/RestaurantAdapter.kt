@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import tn.esprit.resqeatsandroid.databinding.ItemRestaurantBinding
-import tn.esprit.resqeatsandroid.model.HomeItem
+import tn.esprit.resqeatsandroid.model.Restaurant
 
-class RestaurantAdapter : ListAdapter<HomeItem.RestaurantItem, RestaurantAdapter.ViewHolder>(RestaurantDiffCallback()) {
+class RestaurantAdapter : ListAdapter<Restaurant, RestaurantAdapter.ViewHolder>(RestaurantDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemRestaurantBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -16,13 +16,12 @@ class RestaurantAdapter : ListAdapter<HomeItem.RestaurantItem, RestaurantAdapter
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val restaurantItem = getItem(position)
-        holder.bind(restaurantItem)
+        val restaurant = getItem(position)
+        holder.bind(restaurant)
     }
 
     class ViewHolder(private val binding: ItemRestaurantBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(restaurantItem: HomeItem.RestaurantItem) {
-            val restaurant = restaurantItem.restaurant
+        fun bind(restaurant: Restaurant) {
             with(binding) {
                 restaurantName.text = restaurant.username
                 restaurantCategory.text = restaurant.category
@@ -35,12 +34,12 @@ class RestaurantAdapter : ListAdapter<HomeItem.RestaurantItem, RestaurantAdapter
         }
     }
 
-    private class RestaurantDiffCallback : DiffUtil.ItemCallback<HomeItem.RestaurantItem>() {
-        override fun areItemsTheSame(oldItem: HomeItem.RestaurantItem, newItem: HomeItem.RestaurantItem): Boolean {
-            return oldItem.restaurant._id == newItem.restaurant._id
+    private class RestaurantDiffCallback : DiffUtil.ItemCallback<Restaurant>() {
+        override fun areItemsTheSame(oldItem: Restaurant, newItem: Restaurant): Boolean {
+            return oldItem._id == newItem._id
         }
 
-        override fun areContentsTheSame(oldItem: HomeItem.RestaurantItem, newItem: HomeItem.RestaurantItem): Boolean {
+        override fun areContentsTheSame(oldItem: Restaurant, newItem: Restaurant): Boolean {
             return oldItem == newItem
         }
     }

@@ -77,4 +77,7 @@ dependencies {
 
     //gif
     implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.17")
+
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+
 }

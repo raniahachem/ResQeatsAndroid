@@ -25,16 +25,12 @@ class ProductAdapter : ListAdapter<HomeItem.ProductItem, ProductAdapter.ViewHold
             val product = productItem.product
             with(binding) {
                 productName.text = product.title
-                productCategory.text = product.category
-                // Même idée pour les autres champs du produit
-
-                // Mettez à jour la TextView du prix avec la valeur du modèle Product
-                productPrice.text = "Price: $${product.price}"  // Utilisez product.price au lieu de productItem.price
+                productPrice.text = product.price.toString()
+                productCategory.text= product.category
+                // Add any other bindings you need
             }
         }
     }
-
-
 
     private class ProductDiffCallback : DiffUtil.ItemCallback<HomeItem.ProductItem>() {
         override fun areItemsTheSame(oldItem: HomeItem.ProductItem, newItem: HomeItem.ProductItem): Boolean {

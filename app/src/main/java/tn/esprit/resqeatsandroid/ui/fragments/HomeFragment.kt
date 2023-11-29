@@ -5,16 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import tn.esprit.resqeatsandroid.databinding.FragmentHomeBinding
 import tn.esprit.resqeatsandroid.ui.adapters.ProductAdapter
 import tn.esprit.resqeatsandroid.ui.adapters.RestaurantAdapter
+import tn.esprit.resqeatsandroid.network.RetrofitClient
 import tn.esprit.resqeatsandroid.viewmodel.ProductViewModel
+import tn.esprit.resqeatsandroid.viewmodel.ProductViewModelFactory
 import tn.esprit.resqeatsandroid.viewmodel.RestaurantViewModel
+import tn.esprit.resqeatsandroid.viewmodel.RestaurantViewModelFactory
 
 class HomeFragment : Fragment() {
+
     private lateinit var restaurantViewModel: RestaurantViewModel
     private lateinit var productViewModel: ProductViewModel
     private lateinit var restaurantAdapter: RestaurantAdapter
@@ -24,7 +27,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -32,40 +35,45 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialiser le ViewModel pour les restaurants
-        restaurantViewModel = ViewModelProvider(this).get(RestaurantViewModel::class.java)
+        val apiService = RetrofitClient.create()
 
-        // Créer l'adaptateur pour les restaurants avec le service API et le ViewModelScope
+        // Restaurant ViewModel
+        restaurantViewModel = ViewModelProvider(this, RestaurantViewModelFactory(apiService))
+            .get(RestaurantViewModel::class.java)
+
+        // Restaurant Adapter
         restaurantAdapter = RestaurantAdapter()
 
-        // Configurer le RecyclerView pour les restaurants
-        binding.restaurantRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        // RecyclerView Setup for Restaurants
+        binding.restaurantRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.restaurantRecyclerView.adapter = restaurantAdapter
 
-        // Initier l'appel pour obtenir les restaurants
+        // Observing restaurant data
+        restaurantViewModel.restaurants.observe(viewLifecycleOwner) { restaurants ->
+            restaurantAdapter.submitList(restaurants)
+        }
+
+        // Fetching restaurant data
         restaurantViewModel.getAllRestaurants()
 
-        // Observer pour les restaurants
-        restaurantViewModel.restaurants.observe(viewLifecycleOwner, Observer { restaurants ->
-            restaurantAdapter.submitList(restaurants)
-        })
+        // Product ViewModel
+        productViewModel = ViewModelProvider(this, ProductViewModelFactory(apiService))
+            .get(ProductViewModel::class.java)
 
-        // Initialiser le ViewModel pour les produits
-        productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
-
-        // Créer l'adaptateur pour les produits avec le service API et le ViewModelScope
+        // Product Adapter
         productAdapter = ProductAdapter()
 
-        // Configurer le RecyclerView pour les produits
+        // RecyclerView Setup for Products
         binding.productRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.productRecyclerView.adapter = productAdapter
 
-        // Initier l'appel pour obtenir les produits
-        productViewModel.getAllProducts()
-
-        // Observer pour les produits
-        productViewModel.products.observe(viewLifecycleOwner, Observer { products ->
+        // Observing product data
+        productViewModel.products.observe(viewLifecycleOwner) { products ->
             productAdapter.submitList(products)
-        })
+        }
+
+        // Fetching product data
+        productViewModel.getAllProducts()
     }
 }
