@@ -13,6 +13,6 @@
 
     <item android:title="Profile"
         android:icon="@drawable/account"
-        android:id="@+id/fragment_settings"
+        android:id="@+id/fragment_profile"
         />
 </menu>

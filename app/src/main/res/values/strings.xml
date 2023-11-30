@@ -12,4 +12,13 @@
     <string name="input_full_name">FullName</string>
     <string name="input_email">Email</string>
 
+
+    <string name="cart_empty_list_message">You don\'t have any cart!</string>
+    <string name="purchase">Purchase</string>
+    <string name="wordTotal">Total</string>
+
+    <string name="location_icon">location icon</string>
+    <string name="dropdown_icon">dropdown_icon</string>
+    <string name="what_are_you_looking_for">what are you looking for</string>
+
 </resources>

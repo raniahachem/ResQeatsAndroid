@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import tn.esprit.resqeatsandroid.databinding.ItemProductBinding
 import tn.esprit.resqeatsandroid.model.HomeItem
 
@@ -27,6 +28,11 @@ class ProductAdapter : ListAdapter<HomeItem.ProductItem, ProductAdapter.ViewHold
                 productName.text = product.title
                 productPrice.text = product.price.toString()
                 productCategory.text= product.category
+                // Utilisez Glide avec override pour redimensionner l'image
+                Glide.with(root.context)
+                    .load(product.image)
+                    .override(600, 600) // Ajustez ces valeurs en fonction de vos besoins
+                    .into(productImage)
                 // Add any other bindings you need
             }
         }

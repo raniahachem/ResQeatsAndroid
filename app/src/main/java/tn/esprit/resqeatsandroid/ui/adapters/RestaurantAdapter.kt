@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import tn.esprit.resqeatsandroid.databinding.ItemRestaurantBinding
 import tn.esprit.resqeatsandroid.model.Restaurant
 
@@ -25,6 +26,12 @@ class RestaurantAdapter : ListAdapter<Restaurant, RestaurantAdapter.ViewHolder>(
             with(binding) {
                 restaurantName.text = restaurant.username
                 restaurantCategory.text = restaurant.category
+
+                // Utilisez Glide avec override pour redimensionner l'image
+                Glide.with(root.context)
+                    .load(restaurant.image)
+                    .override(1000, 600) // Ajustez ces valeurs en fonction de vos besoins
+                    .into(restaurantImage)
                 // Assurez-vous que vous avez une propriété 'image' dans votre modèle Restaurant
                 // restaurantImage.setImageResource(restaurant.image)
 
