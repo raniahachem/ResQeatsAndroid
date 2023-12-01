@@ -40,7 +40,8 @@
         android:text="@string/offers_posted"
         android:textColor="@color/Primary"
         android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginStart="28dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/restaurantProductsRecyclerView"

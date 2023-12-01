@@ -17,6 +17,6 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
-    // ... autres méthodes de votre activité
+    // ... autres m éthodes de votre activité
 }
 
