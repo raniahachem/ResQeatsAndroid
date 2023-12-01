@@ -12,10 +12,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="285dp"
             android:orientation="vertical">
 
-            <!-- Image du restaurant -->
             <ImageView
                 android:id="@+id/restaurantImage"
                 android:layout_width="wrap_content"
@@ -26,29 +25,28 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_height="68dp"
+                android:orientation="horizontal"
                 android:padding="16dp">
 
-                <!-- Nom du restaurant -->
                 <TextView
                     android:id="@+id/restaurantName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:layout_weight="1"
                     android:text="Restaurant Name"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
-                <!-- Description du restaurant -->
                 <TextView
                     android:id="@+id/restaurantCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Restaurant Category"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textColor="#FF5722"
+                    android:textSize="16sp" />
             </LinearLayout>
 
         </LinearLayout>

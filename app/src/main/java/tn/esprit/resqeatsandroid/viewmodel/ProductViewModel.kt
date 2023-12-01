@@ -20,13 +20,31 @@ class ProductViewModel(private val apiService: ApiService) : ViewModel() {
                 val productList = apiService.getAllProducts()
                 val homeItems = productList.map { HomeItem.ProductItem(it) }
 
-                viewModelScope.launch(Dispatchers.Main) {
-                    _products.value = homeItems
-                }
+                // Utilisation de postValue pour mettre à jour LiveData sur le thread principal
+                _products.postValue(homeItems)
 
             } catch (e: Exception) {
                 e.printStackTrace()
+                // Gestion des erreurs si nécessaire
+            }
+        }
+    }
+
+    // Méthode pour récupérer les produits par ID de restaurant
+    fun getAllProductsByRestaurantId(restaurantId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val productList = apiService.getAllProductsByRestaurantId(restaurantId)
+                val homeItems = productList.map { HomeItem.ProductItem(it) }
+
+                // Utilisation de postValue pour mettre à jour LiveData sur le thread principal
+                _products.postValue(homeItems)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // Gestion des erreurs si nécessaire
             }
         }
     }
 }
+

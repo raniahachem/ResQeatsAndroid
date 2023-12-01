@@ -26,7 +26,9 @@ class ProductAdapter : ListAdapter<HomeItem.ProductItem, ProductAdapter.ViewHold
             val product = productItem.product
             with(binding) {
                 productName.text = product.title
-                productPrice.text = product.price.toString()
+                //productPrice.text = product.price.toString()
+                val priceWithCurrency = "${product.price} TND"
+                productPrice.text = priceWithCurrency
                 productCategory.text= product.category
                 // Utilisez Glide avec override pour redimensionner l'image
                 Glide.with(root.context)

@@ -29,6 +29,16 @@
         </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.activities.RestaurantProductsActivity"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".ui.activities.ProductDetailsActivity"
+            android:exported="false">
+        </activity>
+
     </application>
 
 </manifest>

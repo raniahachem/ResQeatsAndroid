@@ -1,5 +1,6 @@
 package tn.esprit.resqeatsandroid.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import tn.esprit.resqeatsandroid.databinding.FragmentHomeBinding
+import tn.esprit.resqeatsandroid.ui.activities.RestaurantProductsActivity
 import tn.esprit.resqeatsandroid.ui.adapters.ProductAdapter
 import tn.esprit.resqeatsandroid.ui.adapters.RestaurantAdapter
 import tn.esprit.resqeatsandroid.network.RetrofitClient
@@ -65,7 +67,9 @@ class HomeFragment : Fragment() {
         productAdapter = ProductAdapter()
 
         // RecyclerView Setup for Products
-        binding.productRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val productLayoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.productRecyclerView.layoutManager = productLayoutManager
         binding.productRecyclerView.adapter = productAdapter
 
         // Observing product data
@@ -75,5 +79,13 @@ class HomeFragment : Fragment() {
 
         // Fetching product data
         productViewModel.getAllProducts()
+
+        // Ajouter un écouteur de clic sur un élément de la liste des restaurants
+        restaurantAdapter.setOnItemClickListener { restaurant ->
+            // Naviguer vers l'activité des produits du restaurant avec l'ID du restaurant sélectionné
+            val intent = Intent(requireContext(), RestaurantProductsActivity::class.java)
+            intent.putExtra("restaurantId", restaurant._id)
+            startActivity(intent)
+        }
     }
 }

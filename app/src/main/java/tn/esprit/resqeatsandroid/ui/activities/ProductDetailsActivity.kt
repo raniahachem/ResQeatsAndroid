@@ -1,4 +1,6 @@
 package tn.esprit.resqeatsandroid.ui.activities
 
-class ProductDetailsActivity {
+import androidx.appcompat.app.AppCompatActivity
+
+class ProductDetailsActivity : AppCompatActivity() {
 }

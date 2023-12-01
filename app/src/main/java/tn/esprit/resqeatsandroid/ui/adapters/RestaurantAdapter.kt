@@ -1,5 +1,4 @@
 package tn.esprit.resqeatsandroid.ui.adapters
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -11,6 +10,14 @@ import tn.esprit.resqeatsandroid.model.Restaurant
 
 class RestaurantAdapter : ListAdapter<Restaurant, RestaurantAdapter.ViewHolder>(RestaurantDiffCallback()) {
 
+    // Déclaration d'une variable pour stocker l'écouteur de clic
+    private var onItemClickListener: ((Restaurant) -> Unit)? = null
+
+    // Fonction pour définir l'écouteur de clic depuis l'extérieur de l'adaptateur
+    fun setOnItemClickListener(listener: (Restaurant) -> Unit) {
+        onItemClickListener = listener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemRestaurantBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
@@ -21,22 +28,21 @@ class RestaurantAdapter : ListAdapter<Restaurant, RestaurantAdapter.ViewHolder>(
         holder.bind(restaurant)
     }
 
-    class ViewHolder(private val binding: ItemRestaurantBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemRestaurantBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(restaurant: Restaurant) {
             with(binding) {
                 restaurantName.text = restaurant.username
                 restaurantCategory.text = restaurant.category
-
-                // Utilisez Glide avec override pour redimensionner l'image
+                //restaurantDescription.text = restaurant.description
                 Glide.with(root.context)
                     .load(restaurant.image)
-                    .override(1000, 600) // Ajustez ces valeurs en fonction de vos besoins
+                    .override(1000, 600)
                     .into(restaurantImage)
-                // Assurez-vous que vous avez une propriété 'image' dans votre modèle Restaurant
-                // restaurantImage.setImageResource(restaurant.image)
 
-                // Si vous avez une URL d'image, vous pouvez utiliser une bibliothèque comme Glide pour charger l'image
-                // Glide.with(root.context).load(restaurant.image).into(restaurantImage)
+                // Ajout d'un clic sur l'élément
+                root.setOnClickListener {
+                    onItemClickListener?.invoke(restaurant)
+                }
             }
         }
     }
