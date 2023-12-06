@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/values/arrays.xml -->
+<resources>
+    <string-array name="categories">
+        <item>Fast Food</item>
+        <item>Healthy</item>
+        <item>Main Meal</item>
+        <item>Dessert</item>
+    </string-array>
+</resources>

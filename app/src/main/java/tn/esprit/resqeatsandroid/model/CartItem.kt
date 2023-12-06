@@ -31,4 +31,3 @@ data class CartItem(
     var quantity: Int
 )
 
-

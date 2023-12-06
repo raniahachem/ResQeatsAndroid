@@ -8,7 +8,5 @@ data class Product(
     val image: String,
     val quantity: Int,
     val restaurant: String,
-    val createdAt: String,
-    val updatedAt: String,
-    val _id: String
+    val _id: String?
 )

@@ -7,17 +7,17 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import tn.esprit.resqeatsandroid.R
+import tn.esprit.resqeatsandroid.database.AppDatabase
 import tn.esprit.resqeatsandroid.model.CartItem
 import tn.esprit.resqeatsandroid.model.Product
 import tn.esprit.resqeatsandroid.network.RetrofitClient
 import tn.esprit.resqeatsandroid.ui.adapters.ProductAdapter
 import tn.esprit.resqeatsandroid.viewmodel.ProductViewModel
 import tn.esprit.resqeatsandroid.viewmodel.ProductViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import tn.esprit.resqeatsandroid.database.AppDatabase
 
 class RestaurantProductsActivity : AppCompatActivity() {
 
@@ -67,25 +67,39 @@ class RestaurantProductsActivity : AppCompatActivity() {
             onBackPressed()
         }
     }
-
     private fun onAddToCartClicked(product: Product) {
+        // Remplacez R.id.votre_id_textview par l'ID réel de votre TextView eachCartItemQuantity
+        val quantityTextView: TextView = findViewById(R.id.eachCartItemQuantity) ?: return
+
+        // Obtenez la valeur de quantité de l'élément TextView
+        val selectedQuantity: Int = quantityTextView.text.toString().toIntOrNull() ?: 0
+
+        val cartItem = CartItem(
+            productId = product._id.toString(),
+            productName = product.title,
+            productCategory = product.category,
+            productPrice = product.price,
+            productImage = product.image,
+            quantity = selectedQuantity
+        )
+
+        // Insert or update the cart item in the Room database
+        insertOrUpdateCartItem(cartItem)
+
+        // Notify the user or update UI accordingly
+    }
+
+    private fun insertOrUpdateCartItem(cartItem: CartItem) {
+        // Use the database instance initialized earlier
         CoroutineScope(Dispatchers.IO).launch {
-            val existingCartItem = database.cartItemDao().getCartItemById(product._id)
+            val existingCartItem = database.cartItemDao().getCartItemById(cartItem.productId)
 
             if (existingCartItem != null) {
                 // Update the quantity if the item already exists in the cart
-                existingCartItem.quantity++
+                existingCartItem.quantity += cartItem.quantity
                 database.cartItemDao().updateCartItem(existingCartItem)
             } else {
                 // Insert a new cart item
-                val cartItem = CartItem(
-                    productId = product._id,
-                    productName = product.title,
-                    productCategory = product.category,
-                    productPrice = product.price,
-                    productImage = product.image,
-                    quantity = 1
-                )
                 database.cartItemDao().insertCartItem(cartItem)
             }
         }

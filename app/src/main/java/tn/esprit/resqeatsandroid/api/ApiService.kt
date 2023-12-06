@@ -19,6 +19,9 @@ interface ApiService {
     @GET("product/{restaurantId}/products")
     suspend fun getAllProductsByRestaurantId(@Path("restaurantId") restaurantId: String): List<Product>
 
+    @POST("product/products")
+    suspend fun addProduct(@Body product: Product): Response<Void>
+
     @POST("/orders")
     suspend fun createOrder(@Body order: Order): Response<Order>
 }

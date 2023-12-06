@@ -111,7 +111,7 @@ class HomeFragment : Fragment() {
             val selectedQuantity: Int = quantityTextView.text.toString().toIntOrNull() ?: 0
 
             val cartItem = CartItem(
-                productId = product._id,
+                productId = product._id.toString(),
                 productName = product.title,
                 productCategory = product.category,
                 productPrice = product.price,
@@ -129,7 +129,10 @@ class HomeFragment : Fragment() {
         private fun insertOrUpdateCartItem(cartItem: CartItem) {
             // Use the database instance initialized earlier
             CoroutineScope(Dispatchers.IO).launch {
-                val existingCartItem = database.cartItemDao().getCartItemById(cartItem.productId)
+                val cartItemId = cartItem.productId
+
+                if (cartItemId != null) {
+                    val existingCartItem = database.cartItemDao().getCartItemById(cartItemId)
 
                 if (existingCartItem != null) {
                     // Update the quantity if the item already exists in the cart
@@ -141,4 +144,5 @@ class HomeFragment : Fragment() {
             }
         }
     }
+}
 }

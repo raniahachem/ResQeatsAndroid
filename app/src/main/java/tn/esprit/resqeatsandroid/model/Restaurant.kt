@@ -11,8 +11,6 @@ data class Restaurant(
     val address: String,
     val role: String,
     val type: String,
-    val createdAt: String,
-    val updatedAt: String,
     val _id: String
 )
 
