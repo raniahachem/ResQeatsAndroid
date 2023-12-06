@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import tn.esprit.resqeatsandroid.api.ApiService
 
 object RetrofitClient {
-    private const val BASE_URL = "http://192.168.100.117:5005/"
+    private const val BASE_URL = "http://192.168.1.10:5005/"
 
     fun create(): ApiService {
         val retrofit = Retrofit.Builder()

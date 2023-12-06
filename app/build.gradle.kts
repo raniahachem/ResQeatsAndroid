@@ -60,9 +60,9 @@ dependencies {
     implementation ("androidx.recyclerview:recyclerview:1.3.0")
 
     //room
-    implementation("androidx.room:room-runtime:2.5.2")
-    annotationProcessor("androidx.room:room-compiler:2.5.2")
-    kapt("androidx.room:room-compiler:2.5.2")
+    implementation("androidx.room:room-runtime:2.5.0")
+    annotationProcessor("androidx.room:room-compiler:2.5.0")
+    kapt("androidx.room:room-compiler:2.5.0")
 
     //splashscreen
     implementation("androidx.core:core-splashscreen:1.0.1")

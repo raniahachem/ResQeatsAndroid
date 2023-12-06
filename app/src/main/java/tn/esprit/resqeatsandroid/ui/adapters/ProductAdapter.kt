@@ -9,11 +9,11 @@ import com.bumptech.glide.Glide
 import tn.esprit.resqeatsandroid.databinding.ItemProductBinding
 import tn.esprit.resqeatsandroid.model.HomeItem
 
-class ProductAdapter : ListAdapter<HomeItem.ProductItem, ProductAdapter.ViewHolder>(ProductDiffCallback()) {
+class ProductAdapter(private val addToCartClickListener: (HomeItem.ProductItem) -> Unit) : ListAdapter<HomeItem.ProductItem, ProductAdapter.ViewHolder>(ProductDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(binding, addToCartClickListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -21,21 +21,23 @@ class ProductAdapter : ListAdapter<HomeItem.ProductItem, ProductAdapter.ViewHold
         holder.bind(productItem)
     }
 
-    class ViewHolder(private val binding: ItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: ItemProductBinding, private val addToCartClickListener: (HomeItem.ProductItem) -> Unit) : RecyclerView.ViewHolder(binding.root) {
         fun bind(productItem: HomeItem.ProductItem) {
             val product = productItem.product
             with(binding) {
                 productName.text = product.title
-                //productPrice.text = product.price.toString()
                 val priceWithCurrency = "${product.price} TND"
                 productPrice.text = priceWithCurrency
-                productCategory.text= product.category
-                // Utilisez Glide avec override pour redimensionner l'image
+                productCategory.text = product.category
                 Glide.with(root.context)
                     .load(product.image)
-                    .override(600, 600) // Ajustez ces valeurs en fonction de vos besoins
+                    .override(600, 600)
                     .into(productImage)
-                // Add any other bindings you need
+
+                // Ajouter un écouteur de clic pour le bouton "Add to Cart"
+                eachproductAddToCartBtn.setOnClickListener {
+                    addToCartClickListener(productItem)
+                }
             }
         }
     }
