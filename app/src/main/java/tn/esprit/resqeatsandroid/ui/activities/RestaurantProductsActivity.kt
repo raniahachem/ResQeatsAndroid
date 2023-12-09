@@ -56,16 +56,9 @@ class RestaurantProductsActivity : AppCompatActivity() {
         productViewModel.products.observe(this) { products ->
             productAdapter.submitList(products)
         }
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
 
-        // Ajoutez un écouteur de clic pour le bouton de retour
-        val btnBack: ImageView = findViewById(R.id.btnBack)
-        btnBack.setOnClickListener {
-            onBackPressed()
-        }
+
     }
     private fun onAddToCartClicked(product: Product) {
         // Remplacez R.id.votre_id_textview par l'ID réel de votre TextView eachCartItemQuantity

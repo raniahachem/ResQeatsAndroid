@@ -6,16 +6,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import tn.esprit.resqeatsandroid.databinding.ItemProductBinding
+import tn.esprit.resqeatsandroid.databinding.ItemProductSupplierBinding
 import tn.esprit.resqeatsandroid.model.HomeItem
 
-class ProductAdapter(
-    private val addToCartClickListener: (HomeItem.ProductItem) -> Unit,
-) : ListAdapter<HomeItem.ProductItem, ProductAdapter.ViewHolder>(ProductDiffCallback()) {
+class ProductSupplierAdapter : ListAdapter<HomeItem.ProductItem, ProductSupplierAdapter.ViewHolder>(ProductDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding, addToCartClickListener)
+        val binding = ItemProductSupplierBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -23,11 +21,7 @@ class ProductAdapter(
         holder.bind(productItem)
     }
 
-    class ViewHolder(
-        private val binding: ItemProductBinding,
-        private val addToCartClickListener: (HomeItem.ProductItem) -> Unit,
-    ) : RecyclerView.ViewHolder(binding.root) {
-
+    class ViewHolder(private val binding: ItemProductSupplierBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(productItem: HomeItem.ProductItem) {
             val product = productItem.product
             with(binding) {
@@ -39,12 +33,6 @@ class ProductAdapter(
                     .load(product.image)
                     .override(600, 600)
                     .into(productImage)
-
-                eachproductAddToCartBtn.setOnClickListener {
-                    addToCartClickListener(productItem)
-                }
-
-
             }
         }
     }
@@ -58,4 +46,8 @@ class ProductAdapter(
             return oldItem == newItem
         }
     }
+    fun updateList(newList: List<HomeItem.ProductItem>) {
+        submitList(newList)
+    }
+
 }

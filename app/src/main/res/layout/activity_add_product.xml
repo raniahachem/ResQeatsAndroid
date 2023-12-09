@@ -6,11 +6,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add New Food Offers"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp"/>
+
     <EditText
         android:id="@+id/editTextTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Title"/>
+        android:hint="Title"
+        android:padding="16dp"/>
+
 
     <Spinner
         android:id="@+id/spinnerCategory"
@@ -18,40 +29,46 @@
         android:layout_height="wrap_content"
         android:entries="@array/categories"
         android:minHeight="48dp"
-        android:prompt="@string/select_category_prompt" />
-
+        android:prompt="@string/select_category_prompt"
+        android:padding="16dp"/>
 
     <EditText
         android:id="@+id/editTextDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Description"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        android:padding="16dp"/>
 
     <EditText
         android:id="@+id/editTextPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Price"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        android:padding="16dp"/>
 
     <EditText
         android:id="@+id/editTextImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Image URL"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        android:padding="16dp"/>
 
     <EditText
         android:id="@+id/editTextQuantity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Quantity"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        android:padding="16dp"/>
 
     <Button
         android:id="@+id/btnAddProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Product"/>
+        android:text="Add Product"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="20dp"/>
 </LinearLayout>

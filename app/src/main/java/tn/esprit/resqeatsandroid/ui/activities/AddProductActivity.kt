@@ -46,6 +46,7 @@ class AddProductActivity : AppCompatActivity() {
         }
     }
 
+
     private fun addProduct(product: Product) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -54,19 +55,25 @@ class AddProductActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         // Gérer le succès
-                        Toast.makeText(this@AddProductActivity, "Product added successfully", Toast.LENGTH_SHORT).show()
-                        finish()
+                        showToast("Product added successfully")
                     } else {
                         // Gérer l'échec
-                        Toast.makeText(this@AddProductActivity, "Failed to add product", Toast.LENGTH_SHORT).show()
+                        showToast("Failed to add product")
                     }
                 }
             } catch (e: Exception) {
                 // Gérer les erreurs réseau ou autres
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@AddProductActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    showToast("Error: ${e.message}")
                 }
             }
         }
     }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this@AddProductActivity, message, Toast.LENGTH_SHORT).show()
+    }
+
+
+
 }

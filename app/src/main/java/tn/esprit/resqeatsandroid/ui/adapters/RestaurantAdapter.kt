@@ -1,4 +1,5 @@
 package tn.esprit.resqeatsandroid.ui.adapters
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -33,7 +34,6 @@ class RestaurantAdapter : ListAdapter<Restaurant, RestaurantAdapter.ViewHolder>(
             with(binding) {
                 restaurantName.text = restaurant.username
                 restaurantCategory.text = restaurant.category
-                //restaurantDescription.text = restaurant.description
                 Glide.with(root.context)
                     .load(restaurant.image)
                     .override(1000, 600)

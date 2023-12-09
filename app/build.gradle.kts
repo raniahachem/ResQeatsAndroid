@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
+    id ("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -79,5 +80,7 @@ dependencies {
     implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.17")
 
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel:2.5.1")
+
 
 }

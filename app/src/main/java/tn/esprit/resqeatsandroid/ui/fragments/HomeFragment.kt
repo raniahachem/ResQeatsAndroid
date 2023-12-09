@@ -1,27 +1,29 @@
 package tn.esprit.resqeatsandroid.ui.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tn.esprit.resqeatsandroid.R
-import tn.esprit.resqeatsandroid.database.AppDatabase
 import tn.esprit.resqeatsandroid.databinding.FragmentHomeBinding
 import tn.esprit.resqeatsandroid.model.CartItem
 import tn.esprit.resqeatsandroid.model.Product
-import tn.esprit.resqeatsandroid.ui.activities.RestaurantProductsActivity
+import tn.esprit.resqeatsandroid.network.RetrofitClient
+import tn.esprit.resqeatsandroid.repository.CartRepository
+import tn.esprit.resqeatsandroid.ui.activities.HomeActivity
 import tn.esprit.resqeatsandroid.ui.adapters.ProductAdapter
 import tn.esprit.resqeatsandroid.ui.adapters.RestaurantAdapter
-import tn.esprit.resqeatsandroid.network.RetrofitClient
-import tn.esprit.resqeatsandroid.ui.activities.HomeActivity
+import tn.esprit.resqeatsandroid.viewmodel.CartViewModel
+import tn.esprit.resqeatsandroid.viewmodel.CartViewModelFactory
 import tn.esprit.resqeatsandroid.viewmodel.ProductViewModel
 import tn.esprit.resqeatsandroid.viewmodel.ProductViewModelFactory
 import tn.esprit.resqeatsandroid.viewmodel.RestaurantViewModel
@@ -34,8 +36,9 @@ class HomeFragment : Fragment() {
     private lateinit var restaurantAdapter: RestaurantAdapter
     private lateinit var productAdapter: ProductAdapter
     private lateinit var binding: FragmentHomeBinding
-    private val database: AppDatabase by lazy {
-        (requireActivity() as HomeActivity).database
+
+    private val cartViewModel: CartViewModel by activityViewModels {
+        CartViewModelFactory(CartRepository((requireActivity() as HomeActivity).database.cartItemDao()))
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,10 +78,15 @@ class HomeFragment : Fragment() {
             .get(ProductViewModel::class.java)
 
         // Product Adapter
-        productAdapter = ProductAdapter { product ->
-            onAddToCartClicked(product.product)
-        }
+        productAdapter = ProductAdapter(
+            addToCartClickListener = { productItem ->
+                onAddToCartClicked(productItem.product)
+            }
+        )
 
+        restaurantAdapter.setOnItemClickListener { restaurantItem ->
+            navigateToRestaurantProducts(restaurantItem._id)
+        }
 
         // RecyclerView Setup for Products
         val productLayoutManager =
@@ -93,56 +101,49 @@ class HomeFragment : Fragment() {
 
         // Fetching product data
         productViewModel.getAllProducts()
+    }
 
-        // Ajouter un écouteur de clic sur un élément de la liste des restaurants
-        restaurantAdapter.setOnItemClickListener { restaurant ->
-            // Naviguer vers l'activité des produits du restaurant avec l'ID du restaurant sélectionné
-            val intent = Intent(requireContext(), RestaurantProductsActivity::class.java)
-            intent.putExtra("restaurantId", restaurant._id)
-            startActivity(intent)
+    private fun navigateToRestaurantProducts(restaurantId: String) {
+        val action =
+            HomeFragmentDirections.actionFragmentHomeToRestaurantProductsFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun onAddToCartClicked(product: Product) {
+        // Update the shared ViewModel
+        val cartItems = cartViewModel.cartItems.value ?: emptyList()
+        val updatedCartItems = cartItems + CartItem(
+            productId = product._id.toString(),
+            productName = product.title,
+            productCategory = product.category,
+            productPrice = product.price,
+            productImage = product.image,
+            quantity = 1
+        )
+        // Notez que setCartItems n'est plus nécessaire, car cartItems est maintenant un LiveData direct du repository
+
+        // Save the product to Room database
+        saveProductToRoom(product)
+
+        Toast.makeText(requireContext(), "Item added to cart successfully", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun saveProductToRoom(product: Product) {
+        // Save the product to Room database
+        val cartItem = CartItem(
+            productId = product._id.toString(),
+            productName = product.title,
+            productCategory = product.category,
+            productPrice = product.price,
+            productImage = product.image,
+            quantity = 1
+        )
+        // CoroutineScope is necessary here to perform database operations in a background thread
+        CoroutineScope(Dispatchers.IO).launch {
+            // Insert the cart item into Room database
+            (requireActivity() as HomeActivity).database.cartItemDao().insertCartItem(cartItem)
         }
     }
-        // Fonction onAddToCartClicked
-        private fun onAddToCartClicked(product: Product) {
-            // Remplacez R.id.votre_id_textview par l'ID réel de votre TextView eachCartItemQuantity
-            val quantityTextView: TextView = view?.findViewById(R.id.eachCartItemQuantity) ?: return
 
-            // Obtenez la valeur de quantité de l'élément TextView
-            val selectedQuantity: Int = quantityTextView.text.toString().toIntOrNull() ?: 0
 
-            val cartItem = CartItem(
-                productId = product._id.toString(),
-                productName = product.title,
-                productCategory = product.category,
-                productPrice = product.price,
-                productImage = product.image,
-                quantity = selectedQuantity
-            )
-
-            // Insert or update the cart item in the Room database
-            insertOrUpdateCartItem(cartItem)
-
-            // Notify the user or update UI accordingly
-        }
-
-        // Fonction insertOrUpdateCartItem
-        private fun insertOrUpdateCartItem(cartItem: CartItem) {
-            // Use the database instance initialized earlier
-            CoroutineScope(Dispatchers.IO).launch {
-                val cartItemId = cartItem.productId
-
-                if (cartItemId != null) {
-                    val existingCartItem = database.cartItemDao().getCartItemById(cartItemId)
-
-                if (existingCartItem != null) {
-                    // Update the quantity if the item already exists in the cart
-                    existingCartItem.quantity += cartItem.quantity
-                    database.cartItemDao().updateCartItem(existingCartItem)
-                } else {
-                    // Insert a new cart item
-                    database.cartItemDao().insertCartItem(cartItem)
-            }
-        }
-    }
-}
 }

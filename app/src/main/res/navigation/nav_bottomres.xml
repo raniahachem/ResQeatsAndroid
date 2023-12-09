@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_bottomres"
+    app:startDestination="@id/restaurantProductsFragment2">
+
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="tn.esprit.resqeatsandroid.ui.fragments.CartFragment"
+        android:label="fragment_cart"
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_cartFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_cartFragment_to_restaurantProductsFragment2"
+            app:destination="@id/restaurantProductsFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="tn.esprit.resqeatsandroid.ui.fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_restaurantProductsFragment2"
+            app:destination="@id/restaurantProductsFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/restaurantProductsFragment2"
+        android:name="tn.esprit.resqeatsandroid.ui.fragments.RestaurantProductsFragment"
+        android:label="fragment_restaurant_products"
+        tools:layout="@layout/fragment_restaurant_products" >
+        <action
+            android:id="@+id/action_restaurantProductsFragment2_to_cartFragment"
+            app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_restaurantProductsFragment2_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+</navigation>

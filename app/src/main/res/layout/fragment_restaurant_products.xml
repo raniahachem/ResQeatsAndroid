@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.RestaurantProductsFragment">
+    <TextView
+        android:id="@+id/offersTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="100dp"
+        android:text="@string/offers_posted"
+        android:textColor="@color/Primary"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginStart="28dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/restaurantProductsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/offersTitle"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimaryOverLay"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:scrollbarSize="8dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbarThumbVertical="@android:color/darker_gray"
+        android:scrollbars="vertical" />
+
+
+</RelativeLayout>

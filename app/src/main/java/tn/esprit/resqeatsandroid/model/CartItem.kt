@@ -29,5 +29,10 @@ data class CartItem(
 
     @ColumnInfo(name = "quantity")
     var quantity: Int
-)
 
+)
+ {
+    fun totalItemPrice(): Double {
+        return quantity * productPrice.toDouble()
+    }
+}

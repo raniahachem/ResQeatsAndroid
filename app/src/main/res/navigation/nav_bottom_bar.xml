@@ -5,12 +5,14 @@
     android:id="@+id/nav_bottom_bar"
     app:startDestination="@id/fragment_home">
 
-
     <fragment
         android:id="@+id/fragment_home"
         android:name="tn.esprit.resqeatsandroid.ui.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_fragment_home_to_restaurantProductsFragment"
+            app:destination="@id/restaurantProductsFragment" />
         <action
             android:id="@+id/action_fragment_home_to_fragment_cart"
             app:destination="@id/fragment_cart" />
@@ -18,6 +20,17 @@
             android:id="@+id/action_fragment_home_to_fragment_profile"
             app:destination="@id/fragment_profile" />
     </fragment>
+
+    <fragment
+        android:id="@+id/restaurantProductsFragment"
+        android:name="tn.esprit.resqeatsandroid.ui.fragments.RestaurantProductsFragment"
+        android:label="fragment_restaurant_products"
+        tools:layout="@layout/fragment_restaurant_products" >
+        <action
+            android:id="@+id/action_restaurantProductsFragment_to_fragment_home"
+            app:destination="@id/fragment_home" />
+    </fragment>
+
     <fragment
         android:id="@+id/fragment_cart"
         android:name="tn.esprit.resqeatsandroid.ui.fragments.CartFragment"
@@ -42,4 +55,5 @@
             android:id="@+id/action_fragment_profile_to_fragment_home"
             app:destination="@id/fragment_home" />
     </fragment>
+
 </navigation>

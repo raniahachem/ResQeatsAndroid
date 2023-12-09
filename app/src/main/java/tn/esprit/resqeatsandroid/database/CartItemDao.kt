@@ -1,5 +1,7 @@
 package tn.esprit.resqeatsandroid.database
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -14,10 +16,11 @@ interface CartItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCartItem(cartItem: CartItem): Long
 
+    @Query("SELECT * FROM cart_items")
+    fun getAllCartItems(): List<CartItem>
 
     @Query("SELECT * FROM cart_items")
-    fun getAllCartItems(): MutableList<CartItem>?
-
+    fun getAllCartItemsLiveData(): LiveData<List<CartItem>>
 
     @Query("SELECT * FROM cart_items WHERE productId = :productId LIMIT 1")
     fun getCartItemById(productId: String): CartItem?
@@ -26,6 +29,12 @@ interface CartItemDao {
     fun updateCartItem(cartItem: CartItem)
 
     @Delete
-    fun deleteCartItem(cartItem: CartItem)
+    fun deleteCartItem(cartItem: CartItem): Int
+
+
+
+    @Query("SELECT SUM(productPrice * quantity) FROM cart_items")
+    fun calculateTotalPrice(): Double
 }
+
 

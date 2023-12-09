@@ -20,28 +20,34 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".ui.activities.HomeActivity"
-            android:exported="true" >
-
-        </activity>
-
-        <activity
             android:name=".ui.activities.RestaurantProductsActivity"
             android:exported="true">
         </activity>
-
         <activity
-            android:name=".ui.activities.ProductDetailsActivity"
-            android:exported="true">
-        </activity>
-        <activity
-            android:name=".ui.activities.AddProductActivity"
-            android:exported="true">
+            android:name=".ui.activities.HomeActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.activities.HomeSupplierActivity"
+            android:exported="true">
+
+        </activity>
+
+
+        <activity
+            android:name=".ui.activities.ProductDetailsActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".ui.activities.AddProductActivity"
+            android:exported="true">
         </activity>
     </application>
 
