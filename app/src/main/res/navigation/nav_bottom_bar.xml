@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_bottom_bar"
+    app:startDestination="@id/fragment_home">
+
+    <fragment
+        android:id="@+id/fragment_home"
+        android:name="resqeatsandroid.ui.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_fragment_home_to_restaurantProductsFragment"
+            app:destination="@id/restaurantProductsFragment" />
+        <action
+            android:id="@+id/action_fragment_home_to_fragment_cart"
+            app:destination="@id/fragment_cart" />
+        <action
+            android:id="@+id/action_fragment_home_to_fragment_profile"
+            app:destination="@id/fragment_profile" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/restaurantProductsFragment"
+        android:name="resqeatsandroid.ui.fragments.RestaurantProductsFragment"
+        android:label="fragment_restaurant_products"
+        tools:layout="@layout/fragment_restaurant_products" >
+        <action
+            android:id="@+id/action_restaurantProductsFragment_to_fragment_home"
+            app:destination="@id/fragment_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_cart"
+        android:name="resqeatsandroid.ui.fragments.CartFragment"
+        android:label="fragment_cart"
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_fragment_cart_to_fragment_profile"
+            app:destination="@id/fragment_profile" />
+        <action
+            android:id="@+id/action_fragment_cart_to_fragment_home"
+            app:destination="@id/fragment_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_profile"
+        android:name="resqeatsandroid.ui.fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_fragment_profile_to_fragment_cart"
+            app:destination="@id/fragment_cart" />
+        <action
+            android:id="@+id/action_fragment_profile_to_fragment_home"
+            app:destination="@id/fragment_home" />
+        <action
+            android:id="@+id/action_fragment_profile_to_fragment_list_donations"
+            app:destination="@id/listDonationsFragment" />
+        <action
+            android:id="@+id/action_fragment_profile_to_listDonationsFragment"
+            app:destination="@id/listDonationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addDonationFragment"
+        android:name="resqeatsandroid.ui.fragments.AddDonationFragment"
+        android:label="fragment_add_donation"
+        tools:layout="@layout/fragment_add_donation" />
+    <fragment
+        android:id="@+id/listDonationsFragment"
+        android:name="resqeatsandroid.ui.fragments.ListDonationsFragment"
+        android:label="fragment_list_donations"
+        tools:layout="@layout/fragment_list_donations" >
+
+    <action
+            android:id="@+id/action_listDonationsFragment_to_editDonationFragment"
+            app:destination="@id/editDonationFragment" />
+        <argument
+            android:name="donationId"
+            app:argType="string" />
+
+    <action
+        android:id="@+id/action_listDonationsFragment_to_addDonationFragment"
+        app:destination="@id/addDonationFragment" />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/editDonationFragment"
+        android:name="resqeatsandroid.ui.fragments.EditDonationFragment"
+        android:label="fragment_edit_donation"
+        tools:layout="@layout/fragment_edit_donation" >
+
+
+    </fragment>
+
+</navigation>

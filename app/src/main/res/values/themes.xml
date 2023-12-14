@@ -1,0 +1,46 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.ResQeatsAndroid" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/colorPrimary</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+
+        <item name="colorSecondary">@color/yellow</item>
+        <item name="colorOnSecondary">@color/yellow</item>
+        <item name="colorSecondaryContainer">@color/transparent</item>
+        <item name="colorOnSecondaryContainer">@color/white</item>
+
+        <item name="colorTertiary">@color/yellow</item>
+        <item name="colorOnTertiary">@color/yellow</item>
+        <item name="colorTertiaryContainer">@color/yellow</item>
+        <item name="colorOnTertiaryContainer">@color/yellow</item>
+
+        <item name="colorError">#B3261E</item>
+        <item name="colorErrorContainer">#B3261E</item>
+        <item name="colorOnError">#B3261E</item>
+        <item name="colorOnErrorContainer">#B3261E</item>
+
+        <item name="android:colorBackground">@color/white</item>
+        <item name="colorOnBackground">@color/yellow</item>
+
+        <item name="colorSurface">@color/colorPrimary</item>
+        <item name="colorOnSurface">@color/colorPrimary</item>
+        <item name="colorSurfaceVariant">@color/white</item>
+        <item name="colorOnSurfaceVariant">@color/colorSecondary</item>
+
+        <item name="colorOutline">@color/colorSecondary</item>
+        <item name="colorOnSurfaceInverse">@color/white</item>
+        <item name="colorSurfaceInverse">@color/colorSecondary</item>
+        <item name="colorPrimaryInverse">@color/colorPrimary</item>
+
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:textColorHighlight">@color/colorSecondary</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+
+    </style>
+
+
+
+</resources>
