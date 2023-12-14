@@ -53,10 +53,12 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="17sp"
+        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cartActivityCardView"
@@ -102,5 +104,16 @@
                 app:srcCompat="@drawable/correct" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/emptyCartMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You have nothing added in your cart"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/cartRecyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/cartRecyclerView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cartRecyclerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

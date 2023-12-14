@@ -12,34 +12,6 @@ import tn.esprit.resqeatsandroid.model.CartItem
 import tn.esprit.resqeatsandroid.repository.CartRepository
 
 class CartViewModel(private val cartRepository: CartRepository) : ViewModel() {
-
-    /*private val _cartItems: MutableLiveData<List<CartItem>> = MutableLiveData()
-    val cartItems: LiveData<List<CartItem>> get() = _cartItems
-
-    fun setCartItems(updatedCartItems: List<CartItem>) {
-        viewModelScope.launch {
-            _cartItems.postValue(updatedCartItems)
-        }
-    }
-
-
-
-    suspend fun deleteCartItem(cartItem: CartItem): Boolean {
-        return withContext(Dispatchers.IO) {
-            try {
-                cartRepository.deleteCartItem(cartItem)
-                true
-            } catch (e: Exception) {
-                Log.e("CartViewModel", "Error deleting cart item", e)
-                false
-            }
-        }
-    }
-
-    suspend fun calculateTotalPrice(): Double {
-        return cartRepository.calculateTotalPrice()
-    }*/
-
     // LiveData directement alimenté par le repository
     val cartItems: LiveData<List<CartItem>> = cartRepository.getAllCartItemsLiveData()
 
@@ -56,12 +28,26 @@ class CartViewModel(private val cartRepository: CartRepository) : ViewModel() {
         }
     }
 
-
     // Fonction pour calculer le prix total des articles dans le panier
     suspend fun calculateTotalPrice(): Double {
         return cartRepository.calculateTotalPrice()
     }
 
+    suspend fun updateCartItem(cartItem: CartItem): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                cartRepository.updateCartItem(cartItem)
+                true
+            } catch (e: Exception) {
+                Log.e("CartViewModel", "Error updating cart item quantity", e)
+                false
+            }
+        }
+    }
+
+    suspend fun clearCart() {
+        withContext(Dispatchers.IO) {
+            cartRepository.clearCart()
+        }
+    }
 }
-
-

@@ -42,6 +42,9 @@
         <action
             android:id="@+id/action_fragment_cart_to_fragment_home"
             app:destination="@id/fragment_home" />
+        <action
+            android:id="@+id/action_fragment_cart_to_checkout_fragment"
+            app:destination="@id/checkout_fragment" />
     </fragment>
     <fragment
         android:id="@+id/fragment_profile"
@@ -55,5 +58,19 @@
             android:id="@+id/action_fragment_profile_to_fragment_home"
             app:destination="@id/fragment_home" />
     </fragment>
+    <fragment
+        android:id="@+id/checkout_fragment"
+        android:name="tn.esprit.resqeatsandroid.ui.fragments.CheckoutFragment"
+        android:label="fragment_checkout"
+        tools:layout="@layout/fragment_checkout" >
+        <action
+            android:id="@+id/action_checkout_fragment_to_payment_fragment"
+            app:destination="@id/payment_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/payment_fragment"
+        android:name="tn.esprit.resqeatsandroid.ui.fragments.PaymentFragment"
+        android:label="@layout/fragment_payment" />
 
 </navigation>

@@ -1,11 +1,16 @@
 package tn.esprit.resqeatsandroid.ui.activities
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,7 +23,19 @@ import tn.esprit.resqeatsandroid.network.RetrofitClient
 class AddProductActivity : AppCompatActivity() {
 
     private lateinit var apiService: ApiService
+    private var selectedImageUri: Uri? = null
 
+    private val pickImageLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                result.data?.data?.let { uri ->
+                    selectedImageUri = uri
+                    showToast("Image selected successfully")
+                }
+            } else {
+                showToast("Image selection failed")
+            }
+        }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_product)
@@ -27,6 +44,14 @@ class AddProductActivity : AppCompatActivity() {
 
         val spinnerCategory: Spinner = findViewById(R.id.spinnerCategory)
         val btnAddProduct: Button = findViewById(R.id.btnAddProduct)
+        val btnSelectImage: Button = findViewById(R.id.btnSelectImage)
+
+        btnSelectImage.setOnClickListener {
+            // Lancer l'activité de sélection d'image
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            pickImageLauncher.launch(intent)
+        }
 
         btnAddProduct.setOnClickListener {
             // Récupérer les valeurs des champs et créer un objet Product
@@ -35,7 +60,7 @@ class AddProductActivity : AppCompatActivity() {
                 category = spinnerCategory.selectedItem.toString(),
                 description = findViewById<EditText>(R.id.editTextDescription).text.toString(),
                 price = findViewById<EditText>(R.id.editTextPrice).text.toString().toInt(),
-                image = findViewById<EditText>(R.id.editTextImage).text.toString(),
+                image = selectedImageUri?.toString() ?: "",
                 quantity = findViewById<EditText>(R.id.editTextQuantity).text.toString().toInt(),
                 restaurant = "65594e93fb8b75c44f353fb5",
                 _id = null
@@ -46,6 +71,11 @@ class AddProductActivity : AppCompatActivity() {
         }
     }
 
+    private fun getImagePickerIntent(): Intent {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        return intent
+    }
 
     private fun addProduct(product: Product) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -73,7 +103,5 @@ class AddProductActivity : AppCompatActivity() {
     private fun showToast(message: String) {
         Toast.makeText(this@AddProductActivity, message, Toast.LENGTH_SHORT).show()
     }
-
-
-
 }
+
