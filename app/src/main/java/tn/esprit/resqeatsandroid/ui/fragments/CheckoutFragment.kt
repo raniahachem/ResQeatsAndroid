@@ -37,7 +37,7 @@ import java.io.IOException
 
 class CheckoutFragment : Fragment() {
     private val paymentViewModel: PaymentViewModel by activityViewModels()
-
+    private var orderId: String? = null
     private lateinit var binding: FragmentCheckoutBinding
     private val cartViewModel: CartViewModel by activityViewModels {
         CartViewModelFactory(CartRepository((requireActivity() as HomeActivity).database.cartItemDao()))
@@ -100,17 +100,14 @@ class CheckoutFragment : Fragment() {
                 if (response.isSuccessful) {
                     val orderId = response.body()?._id
 
-                    // Récupérer l'e-mail du client en utilisant l'API REST
-                    val emailResponse = RetrofitClient.create().getEmailById("65594efffb8b75c44f353fb7")
+                    // Récupérer l'e-mail du client en utilisant l'API REST de manière asynchrone
                     try {
-                        // Exécutez la requête synchrone
-                        val emailResult = emailResponse.execute()
-
-                        if (emailResult.isSuccessful) {
-                            val clientEmail = emailResult.body()?.email
+                        val emailResponse = RetrofitClient.create().getEmailById("65594efffb8b75c44f353fb7")
+                        if (emailResponse.isSuccessful) {
+                            val clientEmail = emailResponse.body()?.email
 
                             // Envoyer un e-mail
-                            sendEmail(orderId, clientEmail)
+                            sendEmail(clientEmail)
 
                             // Afficher une alerte pour indiquer que la commande a été passée avec succès
                             showOrderSuccessAlert(orderId)
@@ -145,11 +142,8 @@ class CheckoutFragment : Fragment() {
                 e.printStackTrace()
                 Toast.makeText(requireContext(), "Error placing order", Toast.LENGTH_SHORT).show()
             }
-
         }
     }
-
-// ...
 
     private fun showOrderSuccessAlert(orderId: String?) {
         val alertDialog = AlertDialog.Builder(requireContext())
@@ -208,22 +202,21 @@ class CheckoutFragment : Fragment() {
         }
     }
 
-    private fun sendEmail(orderId: String?, clientEmail: String?) {
+    private suspend fun sendEmail(clientEmail: String?) {
         try {
             val emailRequest = EmailRequest(
-                to = clientEmail ?: "", // Vérifiez si clientEmail n'est pas nul
+                to = clientEmail ?: "",
                 subject = "Sujet de l'e-mail",
                 text = "Contenu de l'e-mail. Numéro de commande : $orderId"
             )
 
-            // Envoyer l'e-mail en utilisant l'API REST
             val emailResponse = RetrofitClient.create().sendEmail(emailRequest)
 
             if (emailResponse.isSuccessful) {
                 // Gérer le succès de l'envoi de l'e-mail
                 Log.d("Send Email", "Email sent successfully")
             } else {
-                // Gérer la réponse en erreur pour sendEmail
+                // Gérez la réponse en erreur pour sendEmail
                 Log.e("Send Email", "Failed to send email. Response code: ${emailResponse.code()}")
                 Log.e("Send Email", "Response body: ${emailResponse.errorBody()?.string()}")
             }
@@ -233,5 +226,6 @@ class CheckoutFragment : Fragment() {
             Log.e("Send Email", "Error sending email. Exception message: ${e.message}")
         }
     }
+
 
 }

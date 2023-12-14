@@ -37,10 +37,10 @@ interface ApiService {
     fun verifyPayment(@Path("id") paymentId: String): Call<VerifyPaymentResponse>
 
     @GET("/user/users/{id}/email")
-    fun getEmailById(@Path("id") userId: String): Call<EmailResponse>
+    suspend fun getEmailById(@Path("id") userId: String): Response<EmailResponse>
 
     @POST("/email/send-email")
-    fun sendEmail(@Body emailRequest: EmailRequest): Response<Void>
+    suspend fun sendEmail(@Body emailRequest: EmailRequest): Response<Void>
 }
 
 
