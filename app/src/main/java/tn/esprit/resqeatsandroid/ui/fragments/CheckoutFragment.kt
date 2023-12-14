@@ -32,6 +32,8 @@ import tn.esprit.resqeatsandroid.viewmodel.CartViewModel
 import tn.esprit.resqeatsandroid.viewmodel.CartViewModelFactory
 import tn.esprit.resqeatsandroid.viewmodel.PaymentViewModel
 import retrofit2.Response
+import tn.esprit.resqeatsandroid.model.EmailRequest
+import java.io.IOException
 
 class CheckoutFragment : Fragment() {
     private val paymentViewModel: PaymentViewModel by activityViewModels()
@@ -96,21 +98,58 @@ class CheckoutFragment : Fragment() {
                 val response = RetrofitClient.create().createOrder(order)
 
                 if (response.isSuccessful) {
-                    showOrderSuccessAlert(response.body()?._id)
-                    cartViewModel.clearCart()
+                    val orderId = response.body()?._id
+
+                    // Récupérer l'e-mail du client en utilisant l'API REST
+                    val emailResponse = RetrofitClient.create().getEmailById("65594efffb8b75c44f353fb7")
+                    try {
+                        // Exécutez la requête synchrone
+                        val emailResult = emailResponse.execute()
+
+                        if (emailResult.isSuccessful) {
+                            val clientEmail = emailResult.body()?.email
+
+                            // Envoyer un e-mail
+                            sendEmail(orderId, clientEmail)
+
+                            // Afficher une alerte pour indiquer que la commande a été passée avec succès
+                            showOrderSuccessAlert(orderId)
+
+                            // Effacer le panier après avoir placé la commande
+                            cartViewModel.clearCart()
+                        } else {
+                            // Gérez la réponse en erreur pour getEmailById
+                            Log.e("Get Email", "Failed to get client email")
+                        }
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        // Gérez les erreurs IO ici
+                        Log.e("IO Exception", "Error executing getEmailById")
+                    }
                 } else {
+                    // Gérez la réponse en erreur pour createOrder
                     Toast.makeText(requireContext(), "Failed to place order", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: HttpException) {
                 val errorMessage = e.response()?.errorBody()?.string() ?: "Unknown error"
                 Log.e("HTTP Error", errorMessage)
-                Toast.makeText(requireContext(), "HTTP Error placing order: $errorMessage", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "HTTP Error placing order: $errorMessage",
+                    Toast.LENGTH_SHORT
+                ).show()
             } catch (e: Exception) {
-                Log.e("Error placing order", e.message ?: "Unknown error")
+                Log.e("Error placing order", "Exception message: ${e.message}")
+                Log.e("Error placing order", "Exception localized message: ${e.localizedMessage}")
+                Log.e("Error placing order", "Exception cause: ${e.cause}")
+                e.printStackTrace()
                 Toast.makeText(requireContext(), "Error placing order", Toast.LENGTH_SHORT).show()
             }
+
         }
     }
+
+// ...
 
     private fun showOrderSuccessAlert(orderId: String?) {
         val alertDialog = AlertDialog.Builder(requireContext())
@@ -166,6 +205,32 @@ class CheckoutFragment : Fragment() {
 
                 Toast.makeText(requireContext(), "Error initiating payment", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun sendEmail(orderId: String?, clientEmail: String?) {
+        try {
+            val emailRequest = EmailRequest(
+                to = clientEmail ?: "", // Vérifiez si clientEmail n'est pas nul
+                subject = "Sujet de l'e-mail",
+                text = "Contenu de l'e-mail. Numéro de commande : $orderId"
+            )
+
+            // Envoyer l'e-mail en utilisant l'API REST
+            val emailResponse = RetrofitClient.create().sendEmail(emailRequest)
+
+            if (emailResponse.isSuccessful) {
+                // Gérer le succès de l'envoi de l'e-mail
+                Log.d("Send Email", "Email sent successfully")
+            } else {
+                // Gérer la réponse en erreur pour sendEmail
+                Log.e("Send Email", "Failed to send email. Response code: ${emailResponse.code()}")
+                Log.e("Send Email", "Response body: ${emailResponse.errorBody()?.string()}")
+            }
+        } catch (e: Exception) {
+            // Gérer les erreurs ici
+            e.printStackTrace()
+            Log.e("Send Email", "Error sending email. Exception message: ${e.message}")
         }
     }
 

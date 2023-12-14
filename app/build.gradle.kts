@@ -42,6 +42,7 @@ android {
     buildFeatures {
         dataBinding = true
     }
+
 }
 
 dependencies {
@@ -74,14 +75,12 @@ dependencies {
 
     //Glide
     implementation ("com.github.bumptech.glide:glide:4.12.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+    kapt ("com.github.bumptech.glide:compiler:4.12.0")
 
     //gif
     implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.17")
 
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     implementation ("androidx.lifecycle:lifecycle-viewmodel:2.5.1")
-
-
 
 }

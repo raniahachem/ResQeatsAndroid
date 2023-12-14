@@ -6,6 +6,8 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import tn.esprit.resqeatsandroid.model.EmailRequest
+import tn.esprit.resqeatsandroid.model.EmailResponse
 import tn.esprit.resqeatsandroid.model.Product
 import tn.esprit.resqeatsandroid.model.Restaurant
 import tn.esprit.resqeatsandroid.model.Order
@@ -34,6 +36,11 @@ interface ApiService {
     @GET("/payments/verify/{id}")
     fun verifyPayment(@Path("id") paymentId: String): Call<VerifyPaymentResponse>
 
+    @GET("/user/users/{id}/email")
+    fun getEmailById(@Path("id") userId: String): Call<EmailResponse>
+
+    @POST("/email/send-email")
+    fun sendEmail(@Body emailRequest: EmailRequest): Response<Void>
 }
 
 
