@@ -78,7 +78,7 @@ class AddProductActivity : AppCompatActivity() {
         return intent
     }
 
-    private fun addProduct(product: Product) {
+    /*private fun addProduct(product: Product) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = apiService.addProduct(product)
@@ -99,8 +99,33 @@ class AddProductActivity : AppCompatActivity() {
                 }
             }
         }
-    }
+    }*/
+    private fun addProduct(product: Product) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService.addProduct(product)
 
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        // Gérer le succès
+                        showToast("Product added successfully")
+
+                        // Indiquer que l'ajout de produit est réussi
+                        setResult(Activity.RESULT_OK)
+                        finish() // Fermer l'activité après avoir ajouté le produit
+                    } else {
+                        // Gérer l'échec
+                        showToast("Failed to add product")
+                    }
+                }
+            } catch (e: Exception) {
+                // Gérer les erreurs réseau ou autres
+                withContext(Dispatchers.Main) {
+                    showToast("Error: ${e.message}")
+                }
+            }
+        }
+    }
     private fun showToast(message: String) {
         Toast.makeText(this@AddProductActivity, message, Toast.LENGTH_SHORT).show()
     }

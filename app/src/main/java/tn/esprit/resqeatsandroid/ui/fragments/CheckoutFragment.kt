@@ -106,8 +106,8 @@ class CheckoutFragment : Fragment() {
                         if (emailResponse.isSuccessful) {
                             val clientEmail = emailResponse.body()?.email
 
-                            // Envoyer un e-mail
-                            sendEmail(clientEmail)
+                            // Envoyer un e-mail avec le bon orderId
+                            sendEmail(clientEmail, orderId)
 
                             // Afficher une alerte pour indiquer que la commande a été passée avec succès
                             showOrderSuccessAlert(orderId)
@@ -202,12 +202,15 @@ class CheckoutFragment : Fragment() {
         }
     }
 
-    private suspend fun sendEmail(clientEmail: String?) {
+    private suspend fun sendEmail(clientEmail: String?, orderId: String?) {
         try {
+            val emailSubject = "Thank You for Your Order!"
+            val emailMessage = "Thank you for placing your order with our application. This is your order ID: $orderId. Please make sure to show it to your restaurant to verify the order."
+
             val emailRequest = EmailRequest(
                 to = clientEmail ?: "",
-                subject = "Sujet de l'e-mail",
-                text = "Contenu de l'e-mail. Numéro de commande : $orderId"
+                subject = emailSubject,
+                text = emailMessage
             )
 
             val emailResponse = RetrofitClient.create().sendEmail(emailRequest)

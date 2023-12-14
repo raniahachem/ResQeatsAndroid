@@ -1,5 +1,6 @@
 package tn.esprit.resqeatsandroid.ui.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -50,7 +51,7 @@ class HomeSupplierActivity : AppCompatActivity() {
         getProductsByRestaurantId()
     }
 
-    private fun getProductsByRestaurantId() {
+    /*private fun getProductsByRestaurantId() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val products = apiService.getAllProductsByRestaurantId(restaurantId)
@@ -69,11 +70,42 @@ class HomeSupplierActivity : AppCompatActivity() {
                 // Gérer les erreurs
             }
         }
+    }*/
+
+    private fun getProductsByRestaurantId() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val products = apiService.getAllProductsByRestaurantId(restaurantId)
+
+                // Convertissez la liste de Product en liste de HomeItem.ProductItem
+                val productList = products.map { HomeItem.ProductItem(it) }
+
+                withContext(Dispatchers.Main) {
+                    // Mettez à jour l'adaptateur avec les produits obtenus
+                    productAdapter.submitList(productList)
+                    productAdapter.updateList(productList)
+                }
+            } catch (e: Exception) {
+                // Gérer les erreurs
+            }
+        }
     }
 
     // Fonction appelée lors du clic sur le bouton Add Product
     fun onAddProductButtonClick(view: View) {
         val intent = Intent(this, AddProductActivity::class.java)
-        startActivity(intent)
+        startActivityForResult(intent, ADD_PRODUCT_REQUEST)
+    }
+
+    companion object {
+        const val ADD_PRODUCT_REQUEST = 1
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == ADD_PRODUCT_REQUEST && resultCode == Activity.RESULT_OK) {
+            // Rafraîchir la liste des produits après avoir ajouté un nouveau produit
+            getProductsByRestaurantId()
+        }
     }
 }
