@@ -7,23 +7,26 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@android:color/white">
+        app:titleTextColor="@android:color/white"/>
 
-        <ImageButton
-            android:id="@+id/btnAddProduct"
-            android:layout_width="32dp"
-            android:layout_height="26dp"
-            android:layout_marginEnd="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_plus"
-            android:onClick="onAddProductButtonClick"/>
-    </androidx.appcompat.widget.Toolbar>
+    <!-- Bouton "Add Product" aligné à droite -->
+    <ImageButton
+        android:id="@+id/btnAddProduct"
+        android:layout_width="32dp"
+        android:layout_height="26dp"
+        android:layout_marginEnd="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_plus"
+        android:onClick="onAddProductButtonClick"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar"/>
 
     <TextView
         android:id="@+id/offersTitle"
