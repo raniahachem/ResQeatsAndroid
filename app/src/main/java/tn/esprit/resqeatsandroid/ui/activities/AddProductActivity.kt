@@ -60,7 +60,8 @@ class AddProductActivity : AppCompatActivity() {
                 category = spinnerCategory.selectedItem.toString(),
                 description = findViewById<EditText>(R.id.editTextDescription).text.toString(),
                 price = findViewById<EditText>(R.id.editTextPrice).text.toString().toInt(),
-                image = selectedImageUri?.toString() ?: "",
+                //image = selectedImageUri?.toString() ?: "",
+                image= findViewById<EditText>(R.id.editTextImage).text.toString(),
                 quantity = findViewById<EditText>(R.id.editTextQuantity).text.toString().toInt(),
                 restaurant = "65594e93fb8b75c44f353fb5",
                 _id = null

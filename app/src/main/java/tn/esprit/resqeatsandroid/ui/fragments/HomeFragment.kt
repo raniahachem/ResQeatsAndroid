@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -104,10 +105,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToRestaurantProducts(restaurantId: String) {
-        val action =
-            HomeFragmentDirections.actionFragmentHomeToRestaurantProductsFragment()
-        findNavController().navigate(action)
+        val bundle = bundleOf("restaurantId" to restaurantId)
+        findNavController().navigate(R.id.action_fragment_home_to_restaurantProductsFragment, bundle)
     }
+
 
     private fun onAddToCartClicked(product: Product) {
         // Update the shared ViewModel

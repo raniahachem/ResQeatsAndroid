@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
@@ -24,31 +27,14 @@ class HomeSupplierActivity : AppCompatActivity() {
     private val apiService = RetrofitClient.create()
     private val restaurantId = "65594e93fb8b75c44f353fb5" // ID de restaurant statique
 
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home_supplier)
 
-        // Initialisez votre RecyclerView et votre adaptateur
-        recyclerView = findViewById(R.id.restaurantProductsRecyclerView)
-        productAdapter = ProductSupplierAdapter() // Assurez-vous d'initialiser votre adaptateur avec les données appropriées
-
-        // Utilisez un GridLayoutManager avec un spanCount de 2
-        val layoutManager = GridLayoutManager(this, 2)
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = productAdapter
-
-        // Appelez la méthode pour obtenir les produits par ID de restaurant
-        getProductsByRestaurantId()
-    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_supplier)
-
         // Initialisez votre RecyclerView et votre adaptateur
         recyclerView = findViewById(R.id.restaurantProductsRecyclerView)
         productAdapter = ProductSupplierAdapter() // Assurez-vous d'initialiser votre adaptateur avec les données appropriées
-
         // Utilisez un GridLayoutManager avec un spanCount de 2
         val layoutManager = GridLayoutManager(this, 2)
         recyclerView.layoutManager = layoutManager
@@ -91,4 +77,3 @@ class HomeSupplierActivity : AppCompatActivity() {
         startActivity(intent)
     }
 }
-

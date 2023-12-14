@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_supplier"
+    app:startDestination="@id/homeSupplierActivity">
+
+    <activity
+        android:id="@+id/homeSupplierActivity"
+        android:name="tn.esprit.resqeatsandroid.ui.activities.HomeSupplierActivity"
+        android:label="HomeSupplierActivity">
+
+    </activity>
+
+    <fragment
+        android:id="@+id/orderSupplierFragment"
+        android:name="tn.esprit.resqeatsandroid.ui.fragments.OrderSupplierFragment"
+        android:label="OrderSupplierFragment" >
+        <action
+            android:id="@+id/action_orderSupplierFragment_to_homeSupplierActivity"
+            app:destination="@id/homeSupplierActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="tn.esprit.resqeatsandroid.ui.fragments.ProfileFragment"
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_homeSupplierActivity"
+            app:destination="@id/homeSupplierActivity" />
+    </fragment>
+
+</navigation>
+
+
