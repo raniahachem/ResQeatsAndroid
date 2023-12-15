@@ -1,4 +1,5 @@
 package resqeatsandroid.ui.fragments
+import androidx.lifecycle.LiveData
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -38,13 +39,14 @@ class EditDonationFragment : Fragment() {
         etEditEtat = view.findViewById(R.id.etEditEtat)
         btnUpdateDonation = view.findViewById(R.id.btnUpdateDonation)
 
-        //donationId = EditDonationFragmentArgs.fromBundle(requireArguments()).donationId
+        // Extract donation ID from arguments
+        donationId = requireArguments().getString("donationId", "")
 
         // Initialize ViewModel
         donationViewModel = ViewModelProvider(this).get(DonationViewModel::class.java)
 
-        // Observe the donation data
-        donationViewModel.getDonationById(donationId).observe(viewLifecycleOwner, Observer { donation ->
+// Observe the donation data
+        donationViewModel.donation.observe(viewLifecycleOwner, Observer { donation ->
             donation?.let {
                 // Populate UI with donation data
                 etEditQuantity.setText(donation.quantite.toString())
@@ -53,14 +55,17 @@ class EditDonationFragment : Fragment() {
             }
         })
 
-        // Set up click listener for the "Update" button
+// Trigger the network request
+        donationViewModel.getDonationById(donationId)
+
+// Set up click listener for the "Update" button
         btnUpdateDonation.setOnClickListener {
             // Call the function to update the donation
             updateDonation()
         }
     }
 
-    private fun updateDonation() {
+        private fun updateDonation() {
         // Get the values from UI fields
         val updatedQuantite = etEditQuantity.text.toString().toInt()
         val updatedDate = etEditDate.text.toString()
@@ -70,6 +75,8 @@ class EditDonationFragment : Fragment() {
         val updatedDonation = Donation(donationId, updatedQuantite, updatedDate, updatedEtat)
 
         // Make a PUT request to update the donation on the server
-        //donationViewModel.updateDonation(updatedDonation)
+            donationViewModel.updateDonation(updatedDonation)
+        // Navigate back to the previous screen
+        findNavController().popBackStack()
     }
 }

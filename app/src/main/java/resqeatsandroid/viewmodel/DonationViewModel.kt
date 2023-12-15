@@ -11,12 +11,11 @@ import retrofit2.Response
 
 class DonationViewModel : ViewModel() {
 
-    private val _donation = MutableLiveData<Donation>()
-    val donation: LiveData<Donation>
+    private val _donation = MutableLiveData<Donation?>()
+    val donation: LiveData<Donation?>
         get() = _donation
 
-    fun getDonationById(donationId: String): LiveData<Donation> {
-        // Make a network request or use your data source to fetch the donation information
+    fun getDonationById(donationId: String) {
         val call: Call<Donation> = RetrofitDonation.donationApi.getDonationById(donationId)
 
         call.enqueue(object : Callback<Donation> {
@@ -34,7 +33,11 @@ class DonationViewModel : ViewModel() {
                 _donation.value = null
             }
         })
+    }
 
-        return donation
+    // Public method to update the MutableLiveData
+    fun updateDonation(updatedDonation: Donation) {
+        _donation.value = updatedDonation
     }
 }
+

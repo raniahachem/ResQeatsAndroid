@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,6 +46,8 @@ class ListDonationsFragment : Fragment(), DonationAdapter.OnDeleteClickListener,
             // Use Navigation Component to navigate to AddDonationFragment
             findNavController().navigate(R.id.action_listDonationsFragment_to_addDonationFragment)
         }
+
+
     }
 
     private fun fetchDonationsAndUpdateUI() {
@@ -55,8 +58,11 @@ class ListDonationsFragment : Fragment(), DonationAdapter.OnDeleteClickListener,
             override fun onResponse(call: Call<List<Donation>>, response: Response<List<Donation>>) {
                 val donations = response.body()
                 donations?.let {
+                    // Sort the donations based on quantite
+                    val sortedDonations = donations.sortedBy { it.quantite }
+
                     // Pass the ListDonationsFragment as an OnEditClickListener
-                    val adapter = DonationAdapter(donations, this@ListDonationsFragment, this@ListDonationsFragment)
+                    val adapter = DonationAdapter(sortedDonations, this@ListDonationsFragment, this@ListDonationsFragment)
                     donationsRecyclerView.adapter = adapter
                 }
             }

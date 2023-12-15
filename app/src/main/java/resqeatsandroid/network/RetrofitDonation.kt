@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitDonation {
 
-    private const val BASE_URL = "http://192.168.1.19:7001/" // Replace with your actual backend URL
+    private const val BASE_URL = "http://192.168.134.221:7001/" // Replace with your actual backend URL
 
     val retrofit: Retrofit by lazy {
         Retrofit.Builder()
