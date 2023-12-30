@@ -15,7 +15,6 @@ interface DonationApi {
     @GET("donation/donations")
     fun getAllDonations(): Call<List<Donation>>
 
-
     @POST("donation/donations")
     fun createDonation(@Body donation: Donation): Call<Donation>
 
