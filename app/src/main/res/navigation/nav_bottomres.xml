@@ -41,11 +41,7 @@
             android:id="@+id/action_restaurantProductsFragment2_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/addDonationFragment"
-        android:name="resqeatsandroid.ui.fragments.AddDonationFragment"
-        android:label="fragment_add_donation"
-        tools:layout="@layout/fragment_add_donation" />
+
     <fragment
         android:id="@+id/listDonationsFragment"
         android:name="resqeatsandroid.ui.fragments.ListDonationsFragment"
@@ -55,9 +51,13 @@
         <action
             android:id="@+id/action_listDonationsFragment_to_addDonationFragment"
             app:destination="@id/addDonationFragment" />
+        <!-- Inside your nav_graph.xml file -->
         <action
-            android:id="@+id/action_listDonationsFragment_to_editDonationFragment"
-            app:destination="@id/editDonationFragment" />
+            android:id="@+id/actionListDonationsFragmentToEditDonationFragment"
+            app:destination="@id/editDonationFragment">
+
+        </action>
+
     </fragment>
     <fragment
         android:id="@+id/editDonationFragment"
@@ -66,6 +66,12 @@
         tools:layout="@layout/fragment_edit_donation" >
 
 
+
     </fragment>
+    <fragment
+        android:id="@+id/addDonationFragment"
+        android:name="resqeatsandroid.ui.fragments.AddDonationFragment"
+        android:label="fragment_add_donation"
+        tools:layout="@layout/fragment_add_donation" />
 
     </navigation>

@@ -1,4 +1,4 @@
-package resqeatsandroid.ui.adapters
+package tn.esprit.resqeatsandroid.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

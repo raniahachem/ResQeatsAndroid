@@ -4,31 +4,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import resqeatsandroid.model.Donation
 import tn.esprit.resqeatsandroid.R
 
 class DonationAdapter(
     private val donations: List<Donation>,
     private val onDeleteClickListener: OnDeleteClickListener,
-    private val onEditClickListener: OnEditClickListener // Added this line
+    private val onEditClickListener: OnEditClickListener,
+    val onItemClick: (Donation) -> Unit
 ) : RecyclerView.Adapter<DonationAdapter.DonationViewHolder>() {
 
     // Define the callback interface for edit click
-    interface OnEditClickListener {
-        fun onEditClick(donation: Donation)
-    }
-
-    // Define the callback interface for delete click
     interface OnDeleteClickListener {
         fun onDeleteClick(donation: Donation)
     }
 
+    interface OnEditClickListener {
+        fun onEditClick(donation: Donation)
+    }
+
     class DonationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
+        val descriptionTextView: TextView = itemView.findViewById(R.id.descriptionTextView)
         val quantityTextView: TextView = itemView.findViewById(R.id.quantityTextView)
         val dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
-        val etatTextView: TextView = itemView.findViewById(R.id.etatTextView)
+        val statusTextView: TextView = itemView.findViewById(R.id.statusTextView)
         val deleteButton: ImageButton = itemView.findViewById(R.id.eachDonationDeleteBtn)
         val editButton: ImageButton = itemView.findViewById(R.id.editDonationButton)
     }
@@ -41,10 +45,11 @@ class DonationAdapter(
 
     override fun onBindViewHolder(holder: DonationViewHolder, position: Int) {
         val currentDonation = donations[position]
-
-        holder.quantityTextView.text = "Quantity: ${currentDonation.quantite}"
-        holder.dateTextView.text = "Date: ${currentDonation.date}"
-        holder.etatTextView.text = "Etat: ${currentDonation.etat}"
+        "Title: ${currentDonation.title}".also { holder.titleTextView.text = it }
+        "Description: ${currentDonation.description}".also { holder.descriptionTextView.text = it }
+        "Quantity: ${currentDonation.quantity}".also { holder.quantityTextView.text = it }
+        "Date: ${currentDonation.date}".also { holder.dateTextView.text = it }
+        "Status: ${currentDonation.status}".also { holder.statusTextView.text = it }
 
         // Set up click listener for delete ImageButton
         holder.deleteButton.setOnClickListener {
@@ -54,6 +59,11 @@ class DonationAdapter(
         // Set up click listener for edit ImageButton
         holder.editButton.setOnClickListener {
             onEditClickListener.onEditClick(currentDonation)
+        }
+
+        // Set up click listener for the entire item view
+        holder.itemView.setOnClickListener {
+            onItemClick(currentDonation)
         }
     }
 

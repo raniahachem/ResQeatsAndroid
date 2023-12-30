@@ -1,21 +1,23 @@
 package tn.esprit.resqeatsandroid.ui.activities
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import resqeatsandroid.database.AppDatabase
 import tn.esprit.resqeatsandroid.R
-import tn.esprit.resqeatsandroid.database.AppDatabase
 import tn.esprit.resqeatsandroid.model.CartItem
 import tn.esprit.resqeatsandroid.model.Product
 import tn.esprit.resqeatsandroid.network.RetrofitClient
-import resqeatsandroid.ui.adapters.ProductAdapter
-import resqeatsandroid.viewmodel.ProductViewModel
-import resqeatsandroid.viewmodel.ProductViewModelFactory
+import tn.esprit.resqeatsandroid.ui.adapters.ProductAdapter
+import tn.esprit.resqeatsandroid.viewmodel.ProductViewModel
+import tn.esprit.resqeatsandroid.viewmodel.ProductViewModelFactory
 
 class RestaurantProductsActivity : AppCompatActivity() {
 

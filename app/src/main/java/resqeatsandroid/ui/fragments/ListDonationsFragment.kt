@@ -4,14 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import resqeatsandroid.model.Donation
 import resqeatsandroid.network.RetrofitDonation.donationApi
 import resqeatsandroid.ui.adapters.DonationAdapter
+import resqeatsandroid.viewmodel.DonationViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,6 +23,7 @@ class ListDonationsFragment : Fragment(), DonationAdapter.OnDeleteClickListener,
 
     private lateinit var donationsRecyclerView: RecyclerView
     private lateinit var btnAddDonation: View
+    private val viewModel: DonationViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,14 +43,20 @@ class ListDonationsFragment : Fragment(), DonationAdapter.OnDeleteClickListener,
 
         // Fetch donations and update UI
         fetchDonationsAndUpdateUI()
-
         // Set up click listener for btnAddDonation
         btnAddDonation.setOnClickListener {
             // Use Navigation Component to navigate to AddDonationFragment
             findNavController().navigate(R.id.action_listDonationsFragment_to_addDonationFragment)
         }
+    }
 
 
+    private fun onDonationItemClick(donation: Donation) {
+        // Set the selected donation in the shared ViewModel
+        viewModel.selectedDonation = donation
+
+        // Navigate to DonationDetailFragment
+        findNavController().navigate(R.id.action_listDonationsFragment_to_donationDetailFragment)
     }
 
     private fun fetchDonationsAndUpdateUI() {
@@ -58,11 +67,13 @@ class ListDonationsFragment : Fragment(), DonationAdapter.OnDeleteClickListener,
             override fun onResponse(call: Call<List<Donation>>, response: Response<List<Donation>>) {
                 val donations = response.body()
                 donations?.let {
-                    // Sort the donations based on quantite
-                    val sortedDonations = donations.sortedBy { it.quantite }
+                    // Sort the donations based on quantity
+                    val sortedDonations = donations.sortedBy { it.quantity }
 
-                    // Pass the ListDonationsFragment as an OnEditClickListener
-                    val adapter = DonationAdapter(sortedDonations, this@ListDonationsFragment, this@ListDonationsFragment)
+                    // Set up RecyclerView with onItemClick listener
+                    val adapter = DonationAdapter(sortedDonations, this@ListDonationsFragment, this@ListDonationsFragment) { donation ->
+                        onDonationItemClick(donation)
+                    }
                     donationsRecyclerView.adapter = adapter
                 }
             }
@@ -73,34 +84,13 @@ class ListDonationsFragment : Fragment(), DonationAdapter.OnDeleteClickListener,
         })
     }
 
+    // Implement the onEditClick function
     override fun onEditClick(donation: Donation) {
-        // Fetch the Donation object based on donationId from the server
-        fetchDonationByIdAndUpdateUI(donation.id)
-    }
+        // Set the selected donation in the shared ViewModel
+        viewModel.selectedDonation = donation
 
-    private fun fetchDonationByIdAndUpdateUI(donationId: String) {
-        // Fetch the Donation by ID using the Retrofit service
-        val call: Call<Donation> = donationApi.getDonationById(donationId)
-
-        call.enqueue(object : Callback<Donation> {
-            override fun onResponse(call: Call<Donation>, response: Response<Donation>) {
-                val updatedDonation = response.body()
-                updatedDonation?.let {
-                    // Handle the fetched Donation object
-                    navigateToEditDonation(updatedDonation)
-                }
-            }
-
-            override fun onFailure(call: Call<Donation>, t: Throwable) {
-                // Handle error
-            }
-        })
-    }
-
-    private fun navigateToEditDonation(updatedDonation: Donation) {
-        // Navigate to the EditDonationFragment, passing the fetched Donation information
-        val action = ListDonationsFragmentDirections.actionListDonationsFragmentToEditDonationFragment()
-        findNavController().navigate(action)
+        // Navigate to EditDonationFragment
+        findNavController().navigate(R.id.action_listDonationsFragment_to_editDonationFragment)
     }
 
     // Implement the onDeleteClick function
@@ -110,6 +100,11 @@ class ListDonationsFragment : Fragment(), DonationAdapter.OnDeleteClickListener,
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 // Handle the response as needed
+                Toast.makeText(
+                    requireContext(),
+                    "Donation deleted successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
                 // For example, update the UI by refreshing the donation list
                 refreshDonationList()
             }

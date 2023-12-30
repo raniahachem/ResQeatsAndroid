@@ -1,4 +1,4 @@
-package tn.esprit.resqeatsandroid.database
+package resqeatsandroid.database
 
 import android.content.Context
 import androidx.room.Database
@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import tn.esprit.resqeatsandroid.model.CartItem
+
 @Database(entities = [CartItem::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun cartItemDao(): CartItemDao

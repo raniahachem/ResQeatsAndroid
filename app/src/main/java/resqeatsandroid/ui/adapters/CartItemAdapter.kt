@@ -1,4 +1,5 @@
-package resqeatsandroid.ui.adapters
+package tn.esprit.resqeatsandroid.ui.adapters
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,16 +15,10 @@ import tn.esprit.resqeatsandroid.model.CartItem
 
 class CartItemAdapter(private val listener: OnItemClickListener) :
     ListAdapter<CartItem, CartItemAdapter.CartItemViewHolder>(CartItemDiffCallback()) {
-    fun calculateTotalPrice(cartItems: List<CartItem>): Double {
-        var totalPrice = 0.0
-        for (cartItem in cartItems) {
-            totalPrice += cartItem.totalItemPrice()
-        }
-        return totalPrice
-    }
 
     interface OnItemClickListener {
         fun onDeleteClicked(cartItem: CartItem)
+        fun onQuantityChanged(cartItem: CartItem)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartItemViewHolder {
@@ -39,6 +34,7 @@ class CartItemAdapter(private val listener: OnItemClickListener) :
 
     inner class CartItemViewHolder(itemView: View, private val listener: OnItemClickListener) :
         RecyclerView.ViewHolder(itemView) {
+
         fun bind(cartItem: CartItem) {
             with(itemView) {
                 Glide.with(context)
@@ -49,7 +45,6 @@ class CartItemAdapter(private val listener: OnItemClickListener) :
                 findViewById<TextView>(R.id.productPrice).text = cartItem.productPrice.toString()
                 findViewById<TextView>(R.id.eachCartItemQuantity).text = cartItem.quantity.toString()
 
-                // Add a click listener for delete button
                 findViewById<ImageButton>(R.id.eachCartItemDeleteBtn).setOnClickListener {
                     listener.onDeleteClicked(cartItem)
                 }
@@ -58,6 +53,7 @@ class CartItemAdapter(private val listener: OnItemClickListener) :
                     cartItem.quantity++
                     findViewById<TextView>(R.id.eachCartItemQuantity).text =
                         cartItem.quantity.toString()
+                    listener.onQuantityChanged(cartItem)
                 }
 
                 findViewById<ImageButton>(R.id.eachCartItemMinusQuantityBtn).setOnClickListener {
@@ -65,6 +61,7 @@ class CartItemAdapter(private val listener: OnItemClickListener) :
                         cartItem.quantity--
                         findViewById<TextView>(R.id.eachCartItemQuantity).text =
                             cartItem.quantity.toString()
+                        listener.onQuantityChanged(cartItem)
                     }
                 }
             }

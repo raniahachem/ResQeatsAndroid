@@ -1,7 +1,8 @@
-package tn.esprit.resqeatsandroid
+package resqeatsandroid
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import tn.esprit.resqeatsandroid.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

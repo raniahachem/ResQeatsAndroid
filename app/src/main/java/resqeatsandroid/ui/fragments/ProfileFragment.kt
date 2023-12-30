@@ -1,4 +1,4 @@
-package resqeatsandroid.ui.fragments
+package tn.esprit.resqeatsandroid.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,10 +1,11 @@
-package resqeatsandroid.ui.fragments
+package tn.esprit.resqeatsandroid.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -13,20 +14,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import resqeatsandroid.ui.adapters.ProductAdapter
-import resqeatsandroid.ui.adapters.RestaurantAdapter
-import resqeatsandroid.viewmodel.CartViewModel
-import resqeatsandroid.viewmodel.CartViewModelFactory
-import resqeatsandroid.viewmodel.ProductViewModel
-import resqeatsandroid.viewmodel.ProductViewModelFactory
-import resqeatsandroid.viewmodel.RestaurantViewModel
-import resqeatsandroid.viewmodel.RestaurantViewModelFactory
+import tn.esprit.resqeatsandroid.R
 import tn.esprit.resqeatsandroid.databinding.FragmentHomeBinding
 import tn.esprit.resqeatsandroid.model.CartItem
 import tn.esprit.resqeatsandroid.model.Product
 import tn.esprit.resqeatsandroid.network.RetrofitClient
-import tn.esprit.resqeatsandroid.repository.CartRepository
+import resqeatsandroid.repository.CartRepository
 import tn.esprit.resqeatsandroid.ui.activities.HomeActivity
+import tn.esprit.resqeatsandroid.ui.adapters.ProductAdapter
+import tn.esprit.resqeatsandroid.ui.adapters.RestaurantAdapter
+import tn.esprit.resqeatsandroid.viewmodel.CartViewModel
+import tn.esprit.resqeatsandroid.viewmodel.CartViewModelFactory
+import tn.esprit.resqeatsandroid.viewmodel.ProductViewModel
+import tn.esprit.resqeatsandroid.viewmodel.ProductViewModelFactory
+import tn.esprit.resqeatsandroid.viewmodel.RestaurantViewModel
+import tn.esprit.resqeatsandroid.viewmodel.RestaurantViewModelFactory
 
 class HomeFragment : Fragment() {
 
@@ -103,10 +105,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToRestaurantProducts(restaurantId: String) {
-        val action =
-            HomeFragmentDirections.actionFragmentHomeToRestaurantProductsFragment()
-        findNavController().navigate(action)
+        val bundle = bundleOf("restaurantId" to restaurantId)
+        findNavController().navigate(R.id.action_fragment_home_to_restaurantProductsFragment, bundle)
     }
+
 
     private fun onAddToCartClicked(product: Product) {
         // Update the shared ViewModel

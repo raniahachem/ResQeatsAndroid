@@ -5,7 +5,7 @@
     android:id="@+id/context_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="resqeatsandroid.ui.fragments.CartFragment">
+    tools:context=".ui.fragments.CartFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cartRecyclerView"
@@ -53,10 +53,12 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="17sp"
+        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cartActivityCardView"
@@ -88,19 +90,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                 />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/correct" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/emptyCartMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You have nothing added in your cart"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/cartRecyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/cartRecyclerView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cartRecyclerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

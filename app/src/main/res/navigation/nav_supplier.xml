@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_supplier"
+    app:startDestination="@id/homeSupplierActivity">
+
+    <activity
+        android:id="@+id/homeSupplierActivity"
+        android:name="tn.esprit.resqeatsandroid.ui.activities.HomeSupplierActivity"
+        android:label="HomeSupplierActivity">
+
+    </activity>
+
+    <fragment
+        android:id="@+id/orderSupplierFragment"
+        android:name="tn.esprit.resqeatsandroid.ui.fragments.OrderSupplierFragment"
+        android:label="OrderSupplierFragment" >
+        <action
+            android:id="@+id/action_orderSupplierFragment_to_homeSupplierActivity"
+            app:destination="@id/homeSupplierActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/listDonationsFragment"
+        android:name="resqeatsandroid.ui.fragments.ListDonationsFragment"
+        android:label="fragment_list_donations"
+        tools:layout="@layout/fragment_list_donations" >
+
+        <action
+            android:id="@+id/action_listDonationsFragment_to_addDonationFragment"
+            app:destination="@id/addDonationFragment" />
+        <!-- Inside your nav_graph.xml file -->
+        <action
+            android:id="@+id/actionListDonationsFragmentToEditDonationFragment"
+            app:destination="@id/editDonationFragment">
+
+        </action>
+
+    </fragment>
+    <fragment
+        android:id="@+id/editDonationFragment"
+        android:name="resqeatsandroid.ui.fragments.EditDonationFragment"
+        android:label="fragment_edit_donation"
+        tools:layout="@layout/fragment_edit_donation" >
+
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/addDonationFragment"
+        android:name="resqeatsandroid.ui.fragments.AddDonationFragment"
+        android:label="fragment_add_donation"
+        tools:layout="@layout/fragment_add_donation" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="tn.esprit.resqeatsandroid.ui.fragments.ProfileFragment"
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_homeSupplierActivity"
+            app:destination="@id/homeSupplierActivity" />
+    </fragment>
+
+</navigation>
+
+

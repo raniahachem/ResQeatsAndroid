@@ -1,4 +1,4 @@
-package resqeatsandroid.ui.adapters
+package tn.esprit.resqeatsandroid.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,9 +9,7 @@ import com.bumptech.glide.Glide
 import tn.esprit.resqeatsandroid.databinding.ItemProductSupplierBinding
 import tn.esprit.resqeatsandroid.model.HomeItem
 
-class ProductSupplierAdapter : ListAdapter<HomeItem.ProductItem, ProductSupplierAdapter.ViewHolder>(
-    ProductDiffCallback()
-) {
+class ProductSupplierAdapter : ListAdapter<HomeItem.ProductItem, ProductSupplierAdapter.ViewHolder>(ProductDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemProductSupplierBinding.inflate(LayoutInflater.from(parent.context), parent, false)

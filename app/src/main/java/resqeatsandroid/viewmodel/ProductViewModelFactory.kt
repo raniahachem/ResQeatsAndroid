@@ -1,4 +1,4 @@
-package resqeatsandroid.viewmodel
+package tn.esprit.resqeatsandroid.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

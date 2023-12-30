@@ -1,9 +1,12 @@
 package resqeatsandroid.model
 
-
 data class Donation(
     val id: String,
-    val quantite: Int,
+    val title: String,
+    val description: String,
+    val quantity: Int,
     val date: String,
-    val etat: String
+    val status: String,
+    val imageUrl: String? = null
+
 )

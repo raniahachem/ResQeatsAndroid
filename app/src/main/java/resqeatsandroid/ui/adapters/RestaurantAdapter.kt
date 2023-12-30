@@ -1,4 +1,4 @@
-package resqeatsandroid.ui.adapters
+package tn.esprit.resqeatsandroid.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,9 +9,7 @@ import com.bumptech.glide.Glide
 import tn.esprit.resqeatsandroid.databinding.ItemRestaurantBinding
 import tn.esprit.resqeatsandroid.model.Restaurant
 
-class RestaurantAdapter : ListAdapter<Restaurant, RestaurantAdapter.ViewHolder>(
-    RestaurantDiffCallback()
-) {
+class RestaurantAdapter : ListAdapter<Restaurant, RestaurantAdapter.ViewHolder>(RestaurantDiffCallback()) {
 
     // Déclaration d'une variable pour stocker l'écouteur de clic
     private var onItemClickListener: ((Restaurant) -> Unit)? = null

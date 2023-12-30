@@ -1,4 +1,4 @@
-package tn.esprit.resqeatsandroid.database
+package resqeatsandroid.database
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -31,7 +31,8 @@ interface CartItemDao {
     @Delete
     fun deleteCartItem(cartItem: CartItem): Int
 
-
+    @Query("DELETE FROM cart_items")
+    fun clearCart()
 
     @Query("SELECT SUM(productPrice * quantity) FROM cart_items")
     fun calculateTotalPrice(): Double

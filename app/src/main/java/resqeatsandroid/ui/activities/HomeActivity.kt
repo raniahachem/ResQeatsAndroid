@@ -8,12 +8,15 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.room.Room
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import resqeatsandroid.database.AppDatabase
+import resqeatsandroid.viewmodel.DonationViewModel
 import tn.esprit.resqeatsandroid.R
-import tn.esprit.resqeatsandroid.database.AppDatabase
-import resqeatsandroid.viewmodel.CartViewModel
+import tn.esprit.resqeatsandroid.viewmodel.CartViewModel
 
 
 class HomeActivity : AppCompatActivity() {
+    private val viewModel: DonationViewModel by viewModels()
+
     val cartViewModel: CartViewModel by viewModels()
     val database: AppDatabase by lazy {
         Room.databaseBuilder(applicationContext, AppDatabase::class.java, "cart-database")

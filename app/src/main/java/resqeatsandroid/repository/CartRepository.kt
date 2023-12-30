@@ -1,8 +1,11 @@
-package tn.esprit.resqeatsandroid.repository
+package resqeatsandroid.repository
+
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import tn.esprit.resqeatsandroid.database.CartItemDao
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import resqeatsandroid.database.CartItemDao
 import tn.esprit.resqeatsandroid.model.CartItem
 
 class CartRepository(private val cartItemDao: CartItemDao) {
@@ -22,10 +25,23 @@ class CartRepository(private val cartItemDao: CartItemDao) {
         return cartItemDao.getAllCartItemsLiveData()
     }
 
+    fun getAllCartItems(): List<CartItem> {
+        return cartItemDao.getAllCartItems()
+    }
     suspend fun calculateTotalPrice(): Double {
         return cartItemDao.calculateTotalPrice() ?: 0.0
     }
+    suspend fun updateCartItem(cartItem: CartItem) {
+        cartItemDao.updateCartItem(cartItem)
+    }
+
+    suspend fun clearCart() {
+        withContext(Dispatchers.IO) {
+            try {
+                cartItemDao.clearCart()
+            } catch (e: Exception) {
+                Log.e("CartRepository", "Error clearing cart", e)
+            }
+        }
+    }
 }
-
-
-

@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
+    <EditText
+        android:id="@+id/etEditTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title" />
+    <EditText
+    android:id="@+id/etEditDescription"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Description" />
 
     <EditText
         android:id="@+id/etEditQuantity"
@@ -20,10 +30,11 @@
         android:hint="Date" />
 
     <EditText
-        android:id="@+id/etEditEtat"
+        android:id="@+id/etEditStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Etat" />
+        android:hint="Status" />
+
 
     <Button
         android:id="@+id/btnUpdateDonation"
