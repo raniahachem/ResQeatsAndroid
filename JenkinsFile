@@ -1,0 +1,10 @@
+pipeline {
+    agent any
+    stages {
+        stage('Run Maven') {
+            steps {
+                sh 'mvn -version'  
+            }
+        }
+    }
+}
